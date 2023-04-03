@@ -2,9 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import PrimaryButton from "./PrimaryButton";
 
-const Modal = ({ actionLabel, onClose, onSubmit, body, disabled, footer, isOpen, secondaryAction, secondaryActionLabel, title }) => {
-	const [showModal, setShowModal] = useState(true);
-	
+const Modal = ({ actionLabel, onClose, onSubmit, body, disabled, footer, isOpen, secondaryAction, secondaryActionLabel, title, loading }) => {
+	const [showModal, setShowModal] = useState(isOpen);
 	useEffect(() => {
 		setShowModal(isOpen);
 	}, [isOpen]);
@@ -19,10 +18,11 @@ const Modal = ({ actionLabel, onClose, onSubmit, body, disabled, footer, isOpen,
 		}, 300);
 	}, [disabled, onClose]);
 
-	const handleSubmit = useCallback(() => {
+	const handleSubmit = ()=> {
 		if (disabled) return;
-		onSubmit();
-	}, [disabled, onSubmit]);
+		console.log('submit')
+		onSubmit()
+	}
 
 	const handleSecondaryAction = useCallback(() => {
 		if (disabled || !secondaryAction) return;
@@ -115,8 +115,8 @@ const Modal = ({ actionLabel, onClose, onSubmit, body, disabled, footer, isOpen,
 						{/* footer */}
 						<div className="flex flex-col gap-2 p-6">
 							<div className="flex flex-row w-full gap-2 items-center">
-								{secondaryAction && secondaryActionLabel && <Button label={secondaryActionLabel} disabled={disabled} onClick={handleSubmit} outline />}
-								<PrimaryButton label={actionLabel} disabled={disabled} onClick={handleSubmit} />
+								{/* {secondaryAction && secondaryActionLabel && <button label={secondaryActionLabel} disabled={disabled} onClick={handleSubmit}  />} */}
+								<PrimaryButton loading={loading} label={actionLabel} disabled={disabled} onClick={handleSubmit} />
 							</div>
 						</div>
 					</div>

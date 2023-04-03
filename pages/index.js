@@ -23,7 +23,7 @@ export default function Home() {
 				<div className="relative max-w-6xl mx-auto h-screen flex py-12 w-full ">
 					<div className="w-full px-2">
 						<div className="flex sm:w-4/5 md:w-2/5 w-full mx-auto justify-between items-center  bg-white px-4 sm:py-8 py-4 rounded-md shadow-lg">
-							<p className="font-semibold ">Let's set your Daily goals</p>
+							<p className="font-semibold text-gray-600">Let's set your Daily goals</p>
 							<AiFillPlusSquare onClick={addTaskModal.onOpen}  className="text-cyan-500 text-3xl cursor-pointer" />
 							<AddTaskModal/>
 						</div>

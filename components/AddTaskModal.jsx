@@ -1,27 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAddTaskModal from "./hooks/useAddTaskModal";
 import Modal from "./Modal";
 import { useForm } from "react-hook-form";
 import Input from "./Input";
+import { addNewTask } from "@/apiRoute";
+import axios from "axios";
 
 const AddTaskModal = () => {
 	const addTaskModal = useAddTaskModal();
 	const [isLoading, setIsLoading] = useState(false);
+	const [userData, setUserData]=useState({})
+
 	
     let currentDate = new Date().toLocaleDateString('en-ca');
-    console.log(currentDate)
+	useEffect(()=>{
+		const user=JSON.parse(localStorage.getItem('todo-user'))
+		setUserData(user)
+	},[])
+ 
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm();
 	const onSubmit = (data) => {
-		console.log(data);
-		// setIsLoading(false);
-		// axios.post("api/register", data)
-		// 	.then(() => registerModal.onClose())
-		// 	.catch((err) => console.log(err))
-		// 	.finally(() => setIsLoading(false));
+		setIsLoading(true);
+		axios.post(addNewTask, {...data, creator: userData._id})
+			.then((data) => {
+				console.log(data)
+				addTaskModal.onClose()})
+			.catch((err) => console.log(err))
+			.finally(() =>{ 
+				reset()
+				setIsLoading(false)});
 	};
 
 	const bodyContent = (
@@ -36,7 +48,7 @@ const AddTaskModal = () => {
 		</form>
 	);
 
-	return <Modal title="Add a task" onClose={addTaskModal.onClose} isOpen={addTaskModal.isOpen} disabled={isLoading} actionLabel="Save" onSubmit={handleSubmit(onSubmit)} body={bodyContent} />;
+	return <Modal title="Add a task" onClose={addTaskModal.onClose} isOpen={addTaskModal.isOpen} disabled={isLoading} actionLabel="Save" onSubmit={handleSubmit(onSubmit)} body={bodyContent} loading={isLoading}/>;
 };
 
 export default AddTaskModal;
