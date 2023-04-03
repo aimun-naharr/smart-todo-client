@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+:root{
+  --background-color: #ddf2f8b7;
+}
+
+body{
+  background-color: var(--background-color);
+}

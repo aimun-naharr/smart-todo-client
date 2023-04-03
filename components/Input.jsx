@@ -17,7 +17,8 @@ const Input = ({ id, label, type = "text", disabled,  required, register, errors
             pt-6
             font-light
             bg-white
-            border-2
+            border-s-8
+            border-slate-800
             rounded-md
             outline-none
             transition
