@@ -17,12 +17,11 @@ const Register = () => {
 	} = useForm();
 	const [isLoading, setIsLoading] = useState(false);
 
-    
+
     const onSubmit = (data) => {
 		setIsLoading(true);
 		axios.post(signUpUser, data)
 			.then((userData) => {
-                console.log(userData)
 				setUser.onLogin(userData.data.user);
                 localStorage.setItem('todo-user', JSON.stringify(userData.data.user))
 			})

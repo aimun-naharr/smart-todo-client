@@ -22,7 +22,6 @@ const Login = () => {
 		setIsLoading(true);
 		axios.post(loginUser, data)
 			.then((userData) => {
-				console.log(userData);
 				setUser.onLogin(userData.data.user);
                 localStorage.setItem('todo-user', JSON.stringify(userData.data.user))
 			})
