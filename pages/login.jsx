@@ -3,10 +3,12 @@ import Input from "@/components/Input";
 import PrimaryButton from "@/components/PrimaryButton";
 import useUserState from "@/components/hooks/user";
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
+	const router=useRouter()
 	const {
 		register,
 		handleSubmit,
@@ -32,6 +34,7 @@ const Login = () => {
 			<form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
 				<Input label="Email" register={register} errors={errors} id="email" required type='email' disabled={isLoading}/>
 				<Input label="Password" register={register} errors={errors} id="password" type="password" required disabled={isLoading}/>
+				<p>New to Smart todo? <span className='cursor-pointer transition hover:underline' onClick={()=>router.push('/register')}>Please register first</span></p>
 				<PrimaryButton label='login' loading={isLoading}/>
 			</form>
 		</div>
