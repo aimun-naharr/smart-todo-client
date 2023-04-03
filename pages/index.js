@@ -2,15 +2,42 @@ import Head from "next/head";
 import Image from "next/image";
 import { Nunito } from "next/font/google";
 import { AiFillPlusSquare } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAddTaskModal from "@/components/hooks/useAddTaskModal";
 import AddTaskModal from "@/components/AddTaskModal";
+import { getAllTasks } from "@/apiRoute";
+import axios from "axios";
+import Task from "@/components/Task";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
 export default function Home() {
 	const addTaskModal = useAddTaskModal();
-
+	const [isLoading, setIsLoading] = useState(false);
+	const [userData, setUserData] = useState();
+	
+	const [tasks, setTasks] = useState([]);
+	console.log(tasks);
+	useEffect(() => {
+		setIsLoading(true);
+		const user = JSON.parse(localStorage.getItem("todo-user"));
+		setUserData(user);
+		setIsLoading(false)
+	}, []);
+	
+	useEffect(() => {
+		setIsLoading(true);
+		if(userData  ){
+			axios.get(`${getAllTasks}/${userData?._id}`)
+			.then((data) => {
+				console.log(data)
+				setTasks(data.data);
+				setIsLoading(false);
+			})
+			.catch((err) => console.log(err))
+			.finally(()=>setIsLoading(false))
+		}
+	}, [ tasks.length]);
 	return (
 		<>
 			<Head>
@@ -24,9 +51,16 @@ export default function Home() {
 					<div className="w-full px-2">
 						<div className="flex sm:w-4/5 md:w-2/5 w-full mx-auto justify-between items-center  bg-white px-4 sm:py-8 py-4 rounded-md shadow-lg">
 							<p className="font-semibold text-gray-600">Let's set your Daily goals</p>
-							<AiFillPlusSquare onClick={addTaskModal.onOpen}  className="text-cyan-500 text-3xl cursor-pointer" />
-							<AddTaskModal/>
+							<AiFillPlusSquare onClick={addTaskModal.onOpen} className="text-cyan-500 text-3xl cursor-pointer" />
+						
+							<AddTaskModal />
 						</div>
+							{/* show all tasks */}
+							<div className="flex flex-wrap gap-4 mt-12">
+							{tasks?.map((task) => (
+								<Task key={task._id} task={task} />
+							))}
+							</div>
 					</div>
 				</div>
 			</main>
