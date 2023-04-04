@@ -12,7 +12,6 @@ import { useForm } from "react-hook-form";
 
 const Login = () => {
 	const router=useRouter()
-    // const user=JSON.parse(localStorage.getItem('todo-user'))
 	
 	const {
 		register,

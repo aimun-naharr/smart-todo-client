@@ -5,12 +5,18 @@ import { useForm } from "react-hook-form";
 import Input from "./Input";
 import { addNewTask } from "@/apiRoute";
 import axios from "axios";
+import useTasks from "./hooks/useTasks";
+
 
 const AddTaskModal = () => {
-	const addTaskModal = useAddTaskModal();
+	const addTaskModalClose = useAddTaskModal(state=>state.onClose);
+	const addTaskModalOpen = useAddTaskModal(state=>state.onOpen);
+	const isOpen = useAddTaskModal(state=>state.isOpen);
 	const [isLoading, setIsLoading] = useState(false);
 	const [userData, setUserData]=useState({})
-
+	const addTasks = useTasks((state) => state.addTaskData);
+	const tasks = useTasks((state) => state.tasksData);
+	console.log(tasks)
 	
     let currentDate = new Date().toLocaleDateString('en-ca');
 	useEffect(()=>{
@@ -29,11 +35,13 @@ const AddTaskModal = () => {
 		axios.post(addNewTask, {...data, creator: userData._id})
 			.then((data) => {
 				console.log(data)
-				addTaskModal.onClose()})
+				addTasks([...tasks, data.data])
+				})
 			.catch((err) => console.log(err))
 			.finally(() =>{ 
 				reset()
-				setIsLoading(false)});
+				setIsLoading(false)
+				addTaskModalClose()});
 	};
 
 	const bodyContent = (
@@ -48,7 +56,7 @@ const AddTaskModal = () => {
 		</form>
 	);
 
-	return <Modal title="Add a task" onClose={addTaskModal.onClose} isOpen={addTaskModal.isOpen} disabled={isLoading} actionLabel="Save" onSubmit={handleSubmit(onSubmit)} body={bodyContent} loading={isLoading}/>;
+	return <Modal title="Add a task" onClose={addTaskModalClose} isOpen={isOpen} disabled={isLoading} actionLabel="Save" onSubmit={handleSubmit(onSubmit)} body={bodyContent} loading={isLoading}/>;
 };
 
 export default AddTaskModal;

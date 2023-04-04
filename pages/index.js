@@ -9,8 +9,9 @@ import { getAllTasks } from "@/apiRoute";
 import axios from "axios";
 import Task from "@/components/Task";
 import { useRouter } from "next/router";
-import Loader from "@/components/Loader";
 import UpdateTaskModal from "@/components/UpdateTaskModal";
+import useTasks from "@/components/hooks/useTasks";
+import useUserState from "@/components/hooks/user";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -18,28 +19,27 @@ export default function Home() {
 	const addTaskModal = useAddTaskModal();
 	const [isLoading, setIsLoading] = useState(false);
 	const [userData, setUserData] = useState({});
-
+	const setTasks = useTasks((state) => state.setTasksData);
+	const tasks = useTasks((state) => state.tasksData);
+	const setUser = useUserState((state) => state.onLogin);
 	const router = useRouter();
-
-	const [tasks, setTasks] = useState([]);
 
 	useEffect(() => {
 		setIsLoading(true);
 		const user = JSON.parse(localStorage.getItem("todo-user"));
 		setUserData(user);
+		setUser(user);
 		if (user) {
 			setIsLoading(false);
 			axios.get(`${getAllTasks}/${user._id}`)
 				.then((data) => {
-					console.log(data);
 					setTasks(data.data);
 					setIsLoading(false);
 				})
 				.catch((err) => console.log(err))
 				.finally(() => setIsLoading(false));
 		}
-	},[]);
-
+	}, []);
 
 	useEffect(() => {
 		if (!userData) {
@@ -63,7 +63,7 @@ export default function Home() {
 							<AiFillPlusSquare onClick={addTaskModal.onOpen} className="text-cyan-500 text-3xl cursor-pointer" />
 
 							<AddTaskModal />
-							<UpdateTaskModal tasks={tasks}/>
+							<UpdateTaskModal tasks={tasks} />
 						</div>
 						{/* show all tasks */}
 						<div className="flex flex-wrap gap-4 mt-12">

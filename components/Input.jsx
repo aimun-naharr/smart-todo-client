@@ -1,11 +1,12 @@
 import React from "react";
 
-const Input = ({ id, label, type = "text", disabled,  required, register, errors, min }) => {
+const Input = ({ id, label, type = "text", disabled,  required, register, errors, min, defaultValue }) => {
 	return (
 		<div className="w-full relative">
 		
 			<input 
             id={id} 
+            defaultValue={defaultValue}
             type={type}
             {...register(id, { required })} 
             placeholder=" "
