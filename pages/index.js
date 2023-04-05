@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import UpdateTaskModal from "@/components/UpdateTaskModal";
 import useTasks from "@/components/hooks/useTasks";
 import useUserState from "@/components/hooks/user";
+import ShowTaskModal from "@/components/ShowTaskModal";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -58,7 +59,11 @@ export default function Home() {
 			<main className={nunito.className}>
 				<div className="relative max-w-6xl mx-auto h-screen flex py-12 w-full ">
 					<div className="w-full px-2">
+					<div className="mb-4">
+								<h1 className="text-center sm:text-3xl text-cyan-700  font-bold text-xl">Welcome <span className="text-slate-800">{userData?.firstName}</span></h1>
+							</div>
 						<div className="flex sm:w-4/5 md:w-2/5 w-full mx-auto justify-between items-center  bg-white px-4 sm:py-8 py-4 rounded-md shadow-lg">
+							
 							<p className="font-semibold text-gray-600">Let's set your Daily goals</p>
 							<AiFillPlusSquare onClick={addTaskModal.onOpen} className="text-cyan-500 text-3xl cursor-pointer" />
 
@@ -66,12 +71,13 @@ export default function Home() {
 							<UpdateTaskModal tasks={tasks} />
 						</div>
 						{/* show all tasks */}
-						<div className="flex flex-wrap gap-4 mt-12">
+						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12 w-fit px-2   mx-auto  justify-center">
 							{tasks?.map((task) => (
 								<Task key={task._id} task={task} />
 							))}
 						</div>
 					</div>
+							<ShowTaskModal/>
 				</div>
 			</main>
 		</>

@@ -6,6 +6,7 @@ const useUpdateTaskModal=create((set)=>({
    currentTask: {},
    setCurrentTask: (data)=>set({currentTask: data}),
    onOpen: (data)=>set({isOpen: true, updatedId: data}),
+   setId:(data)=>set({updatedId: data}),
    onClose: ()=>set({isOpen: false, updatedId: ''})
 }))
 

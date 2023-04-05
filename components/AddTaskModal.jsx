@@ -10,14 +10,11 @@ import useTasks from "./hooks/useTasks";
 
 const AddTaskModal = () => {
 	const addTaskModalClose = useAddTaskModal(state=>state.onClose);
-	const addTaskModalOpen = useAddTaskModal(state=>state.onOpen);
 	const isOpen = useAddTaskModal(state=>state.isOpen);
 	const [isLoading, setIsLoading] = useState(false);
 	const [userData, setUserData]=useState({})
 	const addTasks = useTasks((state) => state.addTaskData);
 	const tasks = useTasks((state) => state.tasksData);
-	console.log(tasks)
-	
     let currentDate = new Date().toLocaleDateString('en-ca');
 	useEffect(()=>{
 		const user=JSON.parse(localStorage.getItem('todo-user'))
@@ -34,7 +31,6 @@ const AddTaskModal = () => {
 		setIsLoading(true);
 		axios.post(addNewTask, {...data, creator: userData._id})
 			.then((data) => {
-				console.log(data)
 				addTasks([...tasks, data.data])
 				})
 			.catch((err) => console.log(err))

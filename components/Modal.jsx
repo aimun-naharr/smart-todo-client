@@ -3,6 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import PrimaryButton from "./PrimaryButton";
 
 const Modal = ({ actionLabel, onClose, onSubmit, body, disabled, footer, isOpen, secondaryAction, secondaryActionLabel, title, loading }) => {
+	console.log(isOpen)
 	const [showModal, setShowModal] = useState(isOpen);
 	useEffect(() => {
 		setShowModal(isOpen);

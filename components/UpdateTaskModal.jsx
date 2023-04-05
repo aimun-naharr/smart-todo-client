@@ -9,12 +9,10 @@ import useUserState from "./hooks/user";
 import useTasks from "./hooks/useTasks";
 
 const UpdateTaskModal = ({ tasks }) => {
-	console.log(tasks)
 	const updateTask = useUpdateTaskModal();
-
 	const user = useUserState((state) => state.user);
-	
 	const currentTask=useUpdateTaskModal(state=>state.currentTask)
+	const formatDate=new Date(currentTask.dueDate).toLocaleDateString('en-ca')
 	const setCurrentTask=useUpdateTaskModal(state=>state.setCurrentTask)
 	const setTasks = useTasks((state) => state.setTasksData);
 
@@ -51,12 +49,13 @@ const UpdateTaskModal = ({ tasks }) => {
 	const handleClose=()=>{
 		updateTask.onClose()
 setCurrentTask({})
+reset()
 	}
 	const bodyContent = (
 		<form className="flex flex-col gap-4">
 			<div className="flex gap-4">
 				<Input defaultValue={currentTask?.title} register={register} id="title" label="Title" errors={errors} />
-				<Input register={register} defaultValue={currentTask?.dueDate} id="dueDate" label="Due Date" errors={errors} type="date" min={currentDate} />
+				<Input register={register} defaultValue={formatDate} id="dueDate" label="Due Date" errors={errors} type="date" min={currentDate} />
 			</div>
 			<div>
 				<Input register={register} id="description" defaultValue={currentTask?.description} label="Description" errors={errors} />
