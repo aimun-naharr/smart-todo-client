@@ -1,4 +1,4 @@
-const baseUrl='http://localhost:8000/api/v1';
+const baseUrl='https://smart-todo-server-app.onrender.com/api/v1';
 export const loginUser=`${baseUrl}/auth/loginUser`;
 export const signUpUser=`${baseUrl}/auth/createNewUser`;
 export const addNewTask=`${baseUrl}/tasks/createNew`
