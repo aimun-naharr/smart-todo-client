@@ -42,11 +42,17 @@ export default function Home() {
 		}
 	}, []);
 
-	useEffect(() => {
-		if (!userData) {
-			router.push("/login");
+	// useEffect(() => {
+	// 	if (!userData) {
+	// 		router.push("/login" );
+	// 	}
+	// }, [userData]);
+	const handleAddTaskModal=()=>{
+		if(!userData){
+			router.push('/register')
 		}
-	}, [userData]);
+		addTaskModal.onOpen()
+	}
 
 	return (
 		<>
@@ -65,7 +71,7 @@ export default function Home() {
 						<div className="flex sm:w-4/5 md:w-2/5 w-full mx-auto justify-between items-center  bg-white px-4 sm:py-8 py-4 rounded-md shadow-lg">
 							
 							<p className="font-semibold text-gray-600">Let's set your Daily goals</p>
-							<AiFillPlusSquare onClick={addTaskModal.onOpen} className="text-cyan-500 text-3xl cursor-pointer" />
+							<AiFillPlusSquare onClick={handleAddTaskModal} className="text-cyan-500 text-3xl cursor-pointer" />
 
 							<AddTaskModal />
 							<UpdateTaskModal tasks={tasks} />

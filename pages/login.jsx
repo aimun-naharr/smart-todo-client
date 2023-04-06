@@ -35,12 +35,7 @@ const Login = () => {
 				  router.replace('/')
 			});
 	};
-	// useEffect(()=>{
-	// 	if(user){
-	// 		router.push('/')
-	// 	}
-	// 	return null
-	// },[user])
+
 	return (
 		<div className="flex items-center justify-center md:w-2/5 h-screen mx-auto sm:w-2/3 px-12 sm:px-2 md:px-4 w-full">
 			<form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
